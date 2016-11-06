@@ -1,0 +1,29 @@
+{
+  "name": "page-monitor",
+  "version": "1.0.0",
+  "description": "页面性能以及异常监控",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wmfe/page-monitor.git"
+  },
+  "keywords": [
+    "performance",
+    "exceptions"
+  ],
+  "author": "bfe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wmfe/page-monitor/issues"
+  },
+  "homepage": "https://github.com/wmfe/page-monitor#readme",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-include": "^2.3.1",
+    "gulp-uglify": "^2.0.0"
+  }
+}
