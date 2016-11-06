@@ -26,7 +26,7 @@ gulp.task("concat",["clean"], function () {
             }
         }))
         .pipe(gulpRename({
-            extname:".lw.min.js"
+            extname:".lw.js"
         }))
         .pipe(gulp.dest(DEST))
 })
