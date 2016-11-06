@@ -1,7 +1,10 @@
 var gulp = require("gulp")
 var gulpInclude = require("gulp-include")
 var gulpUglify=require("gulp-uglify")
+var gulpRename = require("gulp-rename")
 var del=require("del")
+
+var DEST="./dist/"
 
 gulp.task("concat",["clean"], function () {
     gulp.src("./src/index.js")
@@ -11,12 +14,21 @@ gulp.task("concat",["clean"], function () {
                 __dirname + "/src"
             ]
         }))
+        .pipe(gulp.dest(DEST))
+        .pipe(gulpUglify())
+        .pipe(gulpRename({
+            extname:".min.js"
+        }))
+        .pipe(gulp.dest(DEST))
         .pipe(gulpUglify({
             output:{
                 max_line_len:800
             }
         }))
-        .pipe(gulp.dest("./dist/"))
+        .pipe(gulpRename({
+            extname:".lw.min.js"
+        }))
+        .pipe(gulp.dest(DEST))
 })
 
 gulp.task("clean",function(){
