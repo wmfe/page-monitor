@@ -18,12 +18,25 @@
  * @param {PlainObject} config 初始化配置
  * @param {Array}       whitelist 引用监控的页面url白名单
  */
-window.BDWMMonitor.init(["net","perf","runtime"],{
+window.BDWMMonitor.init(['net', 'exception','perf'],{
     platform:"b",     //业务线
     app:"wmcrm",      //App名称
-    channel:"pc"      //App类型、分类
-},[/[^\?&]+[\?|&]qt=neworderlist&?/]);
+    channel:"pc",     //App类型、分类
+    pageid: '',       //app某页面 （更细粒度监控）
+    beforeReport: function(module,reportData){         // 上报之前回调,用于添加自定义数据（比如商户id,用户id)
+        reportData.wid = '';
+        reportData.uid = '';
+        return reportData;
+    },
+    pageWhiteList: [/[^\?&]+[\?|&]qt=neworderlist&?/]  // 白名单，page级别（用于确定某页面是否启用统计功能）
+
+});
+
 ```
+### 统计模块
+ - net 
+ - exception  
+ - perf
 
 ### 基于FIS的smarty工程注意
 在基于FIS的smarty工程中，内联引用的压缩后的JS代码单行长度有限制，应该使用构建后的`index.min.lw.js`作为内联代码。
