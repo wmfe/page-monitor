@@ -16,44 +16,10 @@
             background: #f6f6f6;
         }
 
-        #header {
-            height: 50px;
-            background: #FF2D4B;
-            border-bottom: 1px solid #f1f1f1;
-            line-height: 50px;
-            text-align: center;
-            color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        #header h2 {
-            position: relative;
-            font-size: 24px;
-        }
-
-        #header sub {
-            font-size: 12px;
-        }
-
-        #header h2 > sup {
-            font-size: 12px;
-        }
-
-        #header em {
-            font-style: normal;
-            border: 1px solid #f2f2f2;
-            font-size: 16px;
-            color: #f2f2f2;
-            padding: 2px;
-        }
-
         nav {
-            width: 240px;
+            width: 300px;
             position: fixed;
-            top: 60px;
+            top: 30px;
             left: 20px;
             background: #fff;
         }
@@ -71,13 +37,37 @@
             color: #FF2D4B;
         }
 
+        .brand{
+            text-align: right;
+            background: #FF2D4B;
+            color:#fff;
+        }
+        .brand h2{
+            line-height:40px;
+            text-align: center;
+        }
+        h2 > sup {
+            font-style: normal;
+            font-size: 16px;
+            color: #F44336;
+            padding: 2px;
+            background:#fff;
+            border-radius:2px;
+        }
+        .brand > em {
+            font-size:12px;
+            font-style: normal;
+            margin-right:20px;
+            margin-bottom:10px;
+            display: inline-block;
+        }
         section {
             width: 800px;
             background: #fff;
             margin: 0 auto;
-            margin-left: 320px;
+            margin-left: 340px;
             padding: 20px;
-            margin-top: 60px;
+            margin-top: 30px;
         }
 
         section img {
@@ -91,7 +81,7 @@
             font-size: 20px;
             border-left: 2px solid #FF2D4B;
             text-indent: 10px;
-            margin:20px 0;
+            margin: 20px 0;
         }
 
         p {
@@ -110,47 +100,52 @@
             font-style: normal;
             color: rgb(255, 45, 75);
         }
-        .required{
-            padding-left:4em;
+
+        .required {
+            padding-left: 4em;
             line-height: 24px;
             display: inline-block;
             text-indent: 0;
         }
-        h4{
+
+        h4 {
             text-indent: 2em;
-            line-height:32px;
+            line-height: 32px;
         }
-        .step{
+
+        .step {
             text-indent: 2.5em;
             display: inline-block;
-            color:#666;
-            margin-bottom:15px;
-            width:100%;
-            line-height:24px;
+            color: #666;
+            margin-bottom: 15px;
+            width: 100%;
+            line-height: 24px;
         }
-        .pageMonitor-resource{
-            padding-left:2.5em;
+
+        .pageMonitor-resource {
+            padding-left: 2.5em;
             display: inline-block;
-            color:#666;
+            color: #666;
         }
-        a{
+
+        a {
             text-decoration: none;
-            color:#2facf7;
+            color: #2facf7;
             display: inline-block;
-            line-height:28px;
-            text-indent:1em;
+            line-height: 28px;
+            text-indent: 1em;
         }
     </style>
 </head>
 <body>
-<header id="header">
-    <h2>
-        PageMonitor
-        <sub>前端数据捕获与上报</sub>
-        <em>beta</em>
-    </h2>
-</header>
 <nav>
+    <header class="brand">
+        <h2>
+            PageMonitor
+            <sup>beta</sup>
+        </h2>
+        <em>前端数据捕获与上报</em>
+    </header>
     <a href="#pref">性能</a>
     <a href="#jserror">JS异常</a>
     <a href="#resource">网络</a>
@@ -192,7 +187,7 @@
     <h3 id="conf">部署</h3>
     <p>
         申请基本配置：<br>
-    <span class="required">
+        <span class="required">
         <em class="highlight">platform</em>平台 （必须）<br>
         <em class="highlight">app</em>应用名称 （必须）<br>
         <em class="highlight">channel</em>应用分类 （必须）<br>
