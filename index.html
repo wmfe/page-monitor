@@ -23,6 +23,10 @@
             line-height: 50px;
             text-align: center;
             color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
         }
 
         #header h2 {
@@ -72,8 +76,69 @@
             background: #fff;
             margin: 0 auto;
             margin-left: 320px;
-            margin-top: 10px;
             padding: 20px;
+            margin-top: 60px;
+        }
+
+        section img {
+            max-width: 100%;
+            margin: 6px 0;
+        }
+
+        h3 {
+            color: #333;
+            line-height: 24px;
+            font-size: 20px;
+            border-left: 2px solid #FF2D4B;
+            text-indent: 10px;
+            margin:20px 0;
+        }
+
+        p {
+            margin-bottom: 10px;
+            line-height: 24px;
+            text-indent: 2em;
+            color: #666;
+        }
+
+        pre {
+            background: #f1f1f1;
+            padding: 2px;
+        }
+
+        em.highlight {
+            font-style: normal;
+            color: rgb(255, 45, 75);
+        }
+        .required{
+            padding-left:4em;
+            line-height: 24px;
+            display: inline-block;
+            text-indent: 0;
+        }
+        h4{
+            text-indent: 2em;
+            line-height:32px;
+        }
+        .step{
+            text-indent: 2.5em;
+            display: inline-block;
+            color:#666;
+            margin-bottom:15px;
+            width:100%;
+            line-height:24px;
+        }
+        .pageMonitor-resource{
+            padding-left:2.5em;
+            display: inline-block;
+            color:#666;
+        }
+        a{
+            text-decoration: none;
+            color:#2facf7;
+            display: inline-block;
+            line-height:28px;
+            text-indent:1em;
         }
     </style>
 </head>
@@ -87,15 +152,84 @@
 </header>
 <nav>
     <a href="#pref">性能</a>
-    <a href="#">JS异常</a>
-    <a href="#">资源监控</a>
+    <a href="#jserror">JS异常</a>
+    <a href="#resource">网络</a>
+    <a href="#conf">部署</a>
+    <a href="#data">统计数据查询</a>
 </nav>
 <section>
-    想嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻想 <br>
-    想嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻想 <br>
-    想嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻想 <br>
-    想嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻想 <br>
-    想嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻想
+    <h3 name="pref" id="pref">性能监控 pref</h3>
+    <p>
+        利用Navigation Timing API收集 newwork serve browser 3个阶段的运行时间。
+        <img src="./src/timg-group.png" alt="">
+    </p>
+    <h3 name="jserror" id="jserror">js异常 exception</h3>
+    <p>
+        捕获页面运行时的js异常，实时上报至日志平台。
+    </p>
+    <p>
+        也可以主动上报日志平台。
+    <pre>
+        try{
+            // some code
+        }catch(e){
+            BDWMMonitor.report('exception', {
+                tag: 'js_error',
+                err_txt: '',  // errmsg
+                url: '',      // url
+                purl: '',     // page url
+                ln: '',       // line number
+                col: '',      // Column number
+                err_status: '' //
+            })
+        }
+    </pre>
+    </p>
+    <h3 name="resource" id="resource">网络 net</h3>
+    <p>
+        对页面请求资源进行监控，加载异常可以上报。ajax异常监控并上报。
+    </p>
+    <h3 id="conf">部署</h3>
+    <p>
+        申请基本配置：<br>
+    <span class="required">
+        <em class="highlight">platform</em>平台 （必须）<br>
+        <em class="highlight">app</em>应用名称 （必须）<br>
+        <em class="highlight">channel</em>应用分类 （必须）<br>
+        <em class="highlight">pageid</em>应用页面
+    </span>
+    <h4>第一步：</h4>
+    <span class="step">
+        引入统计模块：提供了3个统计模块可供选择 <em class="highlight">net</em>/<em class="highlight">perf</em>/<em class="highlight">exception</em>
+    </span>
+    <span class="pageMonitor-resource">
+        目前提供了3个类型统计脚本：<br>
+        <a href="src/pageMonitor-all.lw.js">pageMonitor全模块配置（net/perf/exception）</a>  <br>
+        <a href="src/pageMonitor-exception.lw.js">pageMonitor只包含js监控（不包含网络监控）</a>  <br>
+        <a href="src/pageMonitor-lite.lw.js">pageMonitor 不包含资源请求耗时统计（因资源统计发送量大）</a>
+    </span>
+    <h4>第二步：</h4>
+    <span class="step">初始化配置：</span>
+    <pre>
+    window.BDWMMonitor.init(['net', 'exception','perf'],{
+        platform:"b",     //业务线
+        app:"wmcrm",      //App名称
+        channel:"pc",     //App类型、分类
+        pageid: '',       //app某页面 （更细粒度监控）
+        beforeReport: function(module,reportData){   // 上报之前回调,用于添加自定义数据（比如商户id,用户id)
+            reportData.wid = '';
+            reportData.uid = '';
+            return reportData;
+        },
+        pageWhiteList: [/[^\?&]+[\?|&]qt=neworderlist&?/] // 白名单，page级别（用于确定某页面是否启用统计功能）
+
+    });
+    </pre>
+    </p>
+    <h3 id="data">统计数据查询</h3>
+    <p>
+        DA提供了上报信息查询平台，可内部联系查看。
+    </p>
 </section>
 </body>
 </html>
