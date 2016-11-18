@@ -66,18 +66,10 @@
 
     // report //
 
-    // 上报信息分级（1 INFO   2 ERROR)
-    var REPORT_TYPE_MAP = {
-        'timing': 1,    // INFO
-        'exception': 2,   // ERROR
-        'resource': 1,
-        'perf': 1,
-    };
     BDWMMonitor.report = function (type, data) {
         if (!BDWMMonitor.url || !type || !data) {
             return;
         }
-        data.r_t = REPORT_TYPE_MAP[type] || 1;
 
         data = BDWMMonitor.beforeReport(type, data);
 
