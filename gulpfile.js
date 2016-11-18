@@ -28,10 +28,11 @@ gulp.task('all',function(cb) {
             gulp.dest(DEST)
         ],cb);
 });
-gulp.task('core',function(cb){
+
+gulp.task('lite',function(cb){
     pump([
-        gulp.src(['./src/index.js']),
-        gulpConcat('pageMonitor.js'),
+        gulp.src(['./src/index.js','./src/exception.js','./src/net-lite.js','./src/perf.js']),
+        gulpConcat('pageMonitor-lite.js'),
         gulp.dest(DEST),
         gulpUglify({
             output: {
@@ -46,7 +47,7 @@ gulp.task('core',function(cb){
 });
 gulp.task('exception',function(cb){
     pump([
-        gulp.src(['./src/exception.js']),
+        gulp.src(['./src/index.js','./src/exception.js']),
         gulpConcat('pageMonitor-exception.js'),
         gulp.dest(DEST),
         gulpUglify({
@@ -60,36 +61,4 @@ gulp.task('exception',function(cb){
         gulp.dest(DEST)
     ],cb);
 });
-gulp.task('net',function(cb){
-    pump([
-        gulp.src(['./src/net.js']),
-        gulpConcat('pageMonitor-net.js'),
-        gulp.dest(DEST),
-        gulpUglify({
-            output: {
-                max_line_len: 800
-            }
-        }),
-        gulpRename({
-            extname: ".lw.js"
-        }),
-        gulp.dest(DEST)
-    ],cb);
-});
-gulp.task('perf',function(cb){
-    pump([
-        gulp.src(['./src/net.js']),
-        gulpConcat('pageMonitor-perf.js'),
-        gulp.dest(DEST),
-        gulpUglify({
-            output: {
-                max_line_len: 800
-            }
-        }),
-        gulpRename({
-            extname: ".lw.js"
-        }),
-        gulp.dest(DEST)
-    ],cb);
-});
-gulp.task("default", ['clean',"all",'core','exception','net','perf']);
+gulp.task("default", ['clean',"all",'lite','exception']);
