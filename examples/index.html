@@ -102,10 +102,10 @@
             name: 'frontend all： dom开始加载到window onload事件执行结束',
             value:  i.loadEventEnd - i.domLoading,
         },
-//        {
-//            name: 'dom: dom开始加载到解析完成',
-//            value: i.domComplete - i.domLoading,
-//        },
+        {
+            name: 'dom: dom开始加载到解析完成',
+            value: i.domComplete - i.domLoading,
+        },
         {
             name: 'DOM树构建完毕的时间（还未构建渲染树）',
             value: i.domInteractive - i.domLoading,
