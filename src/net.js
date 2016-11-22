@@ -5,9 +5,9 @@
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var location = window.location;
-    var performance = window.performance || window.webkitPerformance || window.msPerformance || window.mozPerformance;
-    BDWMMonitor.define('net', function () {
+    var location = win.location;
+    var performance = win.performance || win.webkitPerformance || win.msPerformance || win.mozPerformance;
+    BDWMMonitor('net', function () {
         var initiatorWhiteList = ["script", "link", "xmlhttprequest"];
         //PerformanceObserver监控的类型
         //参考：https://w3c.github.io/performance-timeline/

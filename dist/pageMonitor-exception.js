@@ -18,7 +18,11 @@
     // TODO
     // common  & single
     //
-    BDWMMonitor.init = function (modules, conf) {
+    var initConfig = parserQ();
+
+    BDWMMonitor.init = function () {
+        var modules = initConfig.module;
+        var conf = initConfig.conf;
         BDWMMonitor._conf = {
             platform: conf.platform,
             app: conf.app,
@@ -35,9 +39,8 @@
             // do some thing
             modules.forEach(function (item, index) {
                 BDWMMonitor.use(item);
-            })
+            });
         }
-
         // trace code
         var domLoaded = function () {
             BDWMMonitor._conf.traceCode = getTraceCode();
@@ -111,10 +114,16 @@
     };
     BDWMMonitor.error = function (data) {
         BDWMMonitor.report('exception', data);
-    }
+    };
     BDWMMonitor.use = function (moduleName) {
-        BDWMMonitor._module[moduleName] && BDWMMonitor._module[moduleName].run();
-    }
+        if (BDWMMonitor._module[moduleName]){
+            BDWMMonitor._module[moduleName].run();
+        }else {
+            initConfig[moduleName] &&
+            (BDWMMonitor._module[moduleName] = initConfig[moduleName]()) &&
+            BDWMMonitor._module[moduleName].run();
+        }
+    };
 
 
     function matchUA(ua) {
@@ -199,13 +208,27 @@
         }
     }
 
-    win.BDWMMonitor = BDWMMonitor;
+    function parserQ() {
+        var q = BDWMMonitor.q;
+        if (!q) {
+            return {}
+        }
+        var result = {};
+        for (var i = 0; i < q.length; i++) {
+            result[q[i][0]] = q[i][1];
+        }
+        return result;
+    }
+    BDWMMonitor.init();
 })(window);
 
-(function (win) {
+/**
+ * js异常监控
+ */
+~(function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var location = window.location;
-    BDWMMonitor.define('exception', function () {
+    var location = win.location;
+    BDWMMonitor('exception',function () {
         return {
             run: function () {
                 this.catchException();
@@ -242,5 +265,5 @@
                 }
             }
         }
-    })
+    });
 })(window);
