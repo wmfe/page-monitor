@@ -104,9 +104,9 @@
                 });
 
                 var computed = {
-                    p_nav: timing.fetchStart - nav.start,
+                    // p_nav: timing.fetchStart - nav.start,
                     // 上一个页面卸载时间
-                    p_unload: unload.value,
+                    // p_unload: unload.value,
                     // DNS查找耗时
                     p_lookup: dns.value,
                     // tcp链接耗时  * timing.connectEnd - timing.domainLookupEnd
@@ -133,10 +133,12 @@
                     // 应用可用时间（包含网络加载等时间）
                     p_to_dom_loaded: load.end - nav.start,
 
-                    //
-                    netAll: req.start - nav.start,
-                    srv: res.start - req.start,
-                    dom: timing.domInteractive - timing.fetchStart
+                    // net all
+                    p_net: req.start - nav.start,
+                    // backend all
+                    p_srv: res.end - req.start,
+                    // frontend all
+                    p_brw: load.end - timing.domLoading
                 };
                 forEach(time, function (key, value) {
                     perf[key] = value;
@@ -146,8 +148,8 @@
                 });
 
                 var msg = [
-                    'network: ' + computed.netAll,
-                    'server: ' + computed.srv,
+                    'network: ' + computed.p_net,
+                    'server: ' + computed.p_srv,
                     'browser: ' + (load.end - timing.domLoading)
                 ];
                 window.__perf = msg.join('\n')
