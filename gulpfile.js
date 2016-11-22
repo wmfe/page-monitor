@@ -5,11 +5,7 @@ var gulpRename = require("gulp-rename");
 var gulpConcat = require("gulp-concat");
 var del = require("del");
 var pump = require('pump');
-<<<<<<< HEAD
-=======
 var ver = require('./package.json').version;
->>>>>>> dev
-
 var DEST = "./dist/";
 
 
@@ -27,11 +23,7 @@ gulp.task('all',function(cb) {
                 }
             }),
             gulpRename({
-<<<<<<< HEAD
-                extname: ".lw.js"
-=======
                 extname: "-" + ver +".lw.js"
->>>>>>> dev
             }),
             gulp.dest(DEST)
         ],cb);
@@ -48,11 +40,7 @@ gulp.task('lite',function(cb){
             }
         }),
         gulpRename({
-<<<<<<< HEAD
-            extname: ".lw.js"
-=======
             extname: "-" + ver +".lw.js"
->>>>>>> dev
         }),
         gulp.dest(DEST)
     ],cb);
@@ -68,18 +56,11 @@ gulp.task('exception',function(cb){
             }
         }),
         gulpRename({
-<<<<<<< HEAD
-            extname: ".lw.js"
-=======
             extname: "-" + ver + ".lw.js"
->>>>>>> dev
         }),
         gulp.dest(DEST)
     ],cb);
 });
-<<<<<<< HEAD
-gulp.task("default", ['clean',"all",'lite','exception']);
-=======
 gulp.task('deploy', function(cb){
     pump([
         gulp.src(['./src/deploy.js']),
@@ -91,7 +72,6 @@ gulp.task('deploy', function(cb){
             }
         }),
         gulp.dest(DEST)
-    ])
-})
+    ],cb);
+});
 gulp.task("default", ['clean',"all",'lite','exception','deploy']);
->>>>>>> dev
