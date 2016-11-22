@@ -31,7 +31,7 @@
         conf.url ? BDWMMonitor.url = conf.url : null;
         conf.beforeReport ? BDWMMonitor.beforeReport = conf.beforeReport : null;
         // 白名单
-        if (validatePageWhiteList(conf.pageWhiteList)) {
+        if (!validatePageBlackList(conf.pageWhiteList)) {
             // do some thing
             modules.forEach(function (item, index) {
                 BDWMMonitor.use(item);
@@ -154,20 +154,21 @@
 
         return code;
     }
-
-    function validatePageWhiteList(list) {
+    function validatePageBlackList(list) {
         if (!list || (Array.isArray(list) && !list.length)){
-            return true;
+            return false;
         }
         var pass = false;
         if (Array.isArray(list)){
             list.some(function (v, k) {
-                var reg = new RegExp(v)
+                var reg = new RegExp(v);
                 if (reg.test(location.href)) {
                     pass = true;
                     return true;
                 }
             });
+        }else {
+            pass = (list == location.href)
         }
         return pass;
     }
