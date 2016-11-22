@@ -1,6 +1,6 @@
 {
   "name": "page-monitor",
-  "version": "0.2",
+  "version": "0.3",
   "description": "页面性能以及异常监控",
   "main": "index.js",
   "scripts": {

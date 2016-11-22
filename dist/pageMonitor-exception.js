@@ -35,7 +35,7 @@
         conf.url ? BDWMMonitor.url = conf.url : null;
         conf.beforeReport ? BDWMMonitor.beforeReport = conf.beforeReport : null;
         // 黑名单
-        if (!validatePageWhiteList(conf.pageWhiteList)) {
+        if (!validatePageBlackList(conf.pageWhiteList)) {
             modules.forEach(function (item, index) {
                 BDWMMonitor.use(item);
             });
@@ -163,7 +163,7 @@
         return code;
     }
 
-    function validatePageWhiteList(list) {
+    function validatePageBlackList(list) {
         if (!list || (Array.isArray(list) && !list.length)){
             return false;
         }
