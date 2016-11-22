@@ -259,7 +259,10 @@
                 var me = this;
                 document.onreadystatechange = function(){
                     if (document.readyState === "complete") {
-                        me.collectPerf();
+                        // 延迟收集，loadEventEnd事件需要执行完再收集
+                        setTimeout(function(){
+                            me.collectPerf();
+                        },10)
                     }
                 }
             },
