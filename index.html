@@ -135,6 +135,18 @@
             line-height: 28px;
             text-indent: 1em;
         }
+        #deploy{
+            width:600px;
+            margin:10px;
+            font-size:16px;
+            height:120px;
+            border-color:#dedede;
+            padding:10px;
+        }
+        #deploy:focus{
+            border-color:#FF2D4B;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -198,15 +210,16 @@
         引入统计模块：提供了3个统计模块可供选择 <em class="highlight">net</em>/<em class="highlight">perf</em>/<em class="highlight">exception</em>
     </span>
     <span class="pageMonitor-resource">
-        目前提供了3个类型统计脚本：<br>
-        <a href="src/pageMonitor-all.lw.js">pageMonitor 全模块配置（net/perf/exception）</a>  <br>
-        <a href="src/pageMonitor-exception.lw.js">pageMonitor 只包含js异常监控（不包含net/perf）</a>  <br>
-        <a href="src/pageMonitor-lite.lw.js">pageMonitor 不包含net里面资源请求耗时统计（因资源统计发送量大）</a>
+        目前提供了异步加载脚本(在head顶部（&lt/title&gt后面）添加如下脚本)：<br>
+        <textarea name="" id="deploy" cols="30" rows="10">
+            ~function(e,t,n){var i=document.createElement("script"),o=document.getElementsByTagName("script")[0];i.async=!0,i.src=t,o.parentNode.insertBefore(i,o),e[n]=function(){(e[n].q=e[n].q||[]).push(arguments)}}(window,"http://s.waimai.baidu.com/static/pagemonitor/pageMonitor-lite-0.2.min.js","BDWMMonitor");
+        </textarea>
     </span>
     <h4>第二步：</h4>
     <span class="step">初始化配置：</span>
     <pre>
-    window.BDWMMonitor.init(['net', 'exception','perf'],{
+    BDWMMonitor('module',['net', 'exception', 'perf']);
+    BDWMMonitor('conf', {
         platform:"b",     //业务线
         app:"wmcrm",      //App名称
         channel:"pc",     //App类型、分类
@@ -217,13 +230,12 @@
             return reportData;
         },
         pageWhiteList: [/[^\?&]+[\?|&]qt=neworderlist&?/] // 白名单，page级别（用于确定某页面是否启用统计功能）
-
     });
     </pre>
     </p>
     <h3 id="data">统计数据查询</h3>
     <p>
-        DA提供了上报信息查询平台，可内部联系查看。
+        DA提供了上报信息查询平台:<a href="http://ec.inwaimai.baidu.com" target="_blank">ec.inwaimai.baidu.com</a>。
     </p>
 </section>
 </body>
