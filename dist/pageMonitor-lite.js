@@ -114,7 +114,6 @@
                     me.xhrHook(window.XMLHttpRequest);
                 }
                 document.addEventListener("DOMContentLoaded", function (event) {
-                    console.log('????????? net')
                     me.initjQueryAjaxHook();
                 });
             },
@@ -456,7 +455,6 @@
     // report //
 
     BDWMMonitor.report = function (type, data) {
-        console.log('report',arguments)
         if (!BDWMMonitor.url || !type || !data) {
             return;
         }
@@ -599,7 +597,6 @@
         var result = {};
         for (var i = 0; i < q.length; i++) {
             result[q[i][0]] = q[i][1];
-            console.log(q[i]);
         }
         return result;
     }
