@@ -156,16 +156,18 @@
     }
 
     function validatePageWhiteList(list) {
+        if (!list || (Array.isArray(list) && !list.length)){
+            return true;
+        }
         var pass = false;
-        if (Array.isArray(list)) {
+        if (Array.isArray(list)){
             list.some(function (v, k) {
-                if (v.test(location.href)) {
+                var reg = new RegExp(v)
+                if (reg.test(location.href)) {
                     pass = true;
+                    return true;
                 }
             });
-            list.length ? null : pass = true;
-        } else {
-            pass = (list == location.href);
         }
         return pass;
     }
@@ -202,6 +204,9 @@
     win.BDWMMonitor = BDWMMonitor;
 })(window);
 
+/**
+ * js异常监控
+ */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
     var location = window.location;
@@ -246,9 +251,8 @@
 })(window);
 
 /**
- * 网络通信监控
+ * 网络通信监控 - 简版 （无资源加载耗时监控）
  *    ajax请求监控
- *    资源加载监控
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
@@ -403,6 +407,7 @@
 
 /**
  *  性能数据数据收集
+ *
  *
  * timing api:
  *
