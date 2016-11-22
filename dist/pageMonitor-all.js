@@ -621,9 +621,15 @@
                 });
 
                 var computed = {
+<<<<<<< HEAD
                     p_nav: timing.fetchStart - nav.start,
                     // 上一个页面卸载时间
                     p_unload: unload.value,
+=======
+                    // p_nav: timing.fetchStart - nav.start,
+                    // 上一个页面卸载时间
+                    // p_unload: unload.value,
+>>>>>>> dev
                     // DNS查找耗时
                     p_lookup: dns.value,
                     // tcp链接耗时  * timing.connectEnd - timing.domainLookupEnd
@@ -650,10 +656,19 @@
                     // 应用可用时间（包含网络加载等时间）
                     p_to_dom_loaded: load.end - nav.start,
 
+<<<<<<< HEAD
                     //
                     netAll: req.start - nav.start,
                     srv: res.start - req.start,
                     dom: timing.domInteractive - timing.fetchStart
+=======
+                    // net all
+                    p_net: req.start - nav.start,
+                    // backend all
+                    p_srv: res.end - req.start,
+                    // frontend all
+                    p_brw: load.end - timing.domLoading
+>>>>>>> dev
                 };
                 forEach(time, function (key, value) {
                     perf[key] = value;
@@ -663,8 +678,13 @@
                 });
 
                 var msg = [
+<<<<<<< HEAD
                     'network: ' + computed.netAll,
                     'server: ' + computed.srv,
+=======
+                    'network: ' + computed.p_net,
+                    'server: ' + computed.p_srv,
+>>>>>>> dev
                     'browser: ' + (load.end - timing.domLoading)
                 ];
                 window.__perf = msg.join('\n')
