@@ -18,7 +18,11 @@
     // TODO
     // common  & single
     //
-    BDWMMonitor.init = function (modules, conf) {
+    var initConfig = parserQ();
+
+    BDWMMonitor.init = function () {
+        var modules = initConfig.module;
+        var conf = initConfig.conf;
         BDWMMonitor._conf = {
             platform: conf.platform,
             app: conf.app,
@@ -35,9 +39,8 @@
             // do some thing
             modules.forEach(function (item, index) {
                 BDWMMonitor.use(item);
-            })
+            });
         }
-
         // trace code
         var domLoaded = function () {
             BDWMMonitor._conf.traceCode = getTraceCode();
@@ -71,6 +74,7 @@
     // report //
 
     BDWMMonitor.report = function (type, data) {
+        console.log('report',arguments)
         if (!BDWMMonitor.url || !type || !data) {
             return;
         }
@@ -111,10 +115,16 @@
     };
     BDWMMonitor.error = function (data) {
         BDWMMonitor.report('exception', data);
-    }
+    };
     BDWMMonitor.use = function (moduleName) {
-        BDWMMonitor._module[moduleName] && BDWMMonitor._module[moduleName].run();
-    }
+        if (BDWMMonitor._module[moduleName]){
+            BDWMMonitor._module[moduleName].run();
+        }else {
+            initConfig[moduleName] &&
+            (BDWMMonitor._module[moduleName] = initConfig[moduleName]()) &&
+            BDWMMonitor._module[moduleName].run();
+        }
+    };
 
 
     function matchUA(ua) {
@@ -199,7 +209,19 @@
         }
     }
 
-    win.BDWMMonitor = BDWMMonitor;
+    function parserQ() {
+        var q = BDWMMonitor.q;
+        if (!q) {
+            return {}
+        }
+        var result = {};
+        for (var i = 0; i < q.length; i++) {
+            result[q[i][0]] = q[i][1];
+            console.log(q[i]);
+        }
+        return result;
+    }
+    BDWMMonitor.init();
 })(window);
 
 /**
@@ -209,9 +231,9 @@
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var location = window.location;
-    var performance = window.performance || window.webkitPerformance || window.msPerformance || window.mozPerformance;
-    BDWMMonitor.define('net', function () {
+    var location = win.location;
+    var performance = win.performance || win.webkitPerformance || win.msPerformance || win.mozPerformance;
+    BDWMMonitor('net', function () {
         var initiatorWhiteList = ["script", "link", "xmlhttprequest"];
         //PerformanceObserver监控的类型
         //参考：https://w3c.github.io/performance-timeline/
@@ -476,10 +498,13 @@
     }
 })(window);
 
-(function (win) {
+/**
+ * js异常监控
+ */
+~(function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var location = window.location;
-    BDWMMonitor.define('exception', function () {
+    var location = win.location;
+    BDWMMonitor('exception',function () {
         return {
             run: function () {
                 this.catchException();
@@ -516,11 +541,12 @@
                 }
             }
         }
-    })
+    });
 })(window);
 
 /**
  *  性能数据数据收集
+ *
  *
  * timing api:
  *
@@ -566,8 +592,8 @@
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var performance = window.performance || window.webkitPerformance || window.msPerformance || window.mozPerformance;
-    BDWMMonitor.define('perf', function () {
+    var performance = win.performance || win.webkitPerformance || win.msPerformance || win.mozPerformance;
+    BDWMMonitor('perf', function () {
         var time = {};
         var perf = {};
         return {
@@ -576,16 +602,10 @@
             },
             domHook: function () {
                 var me = this;
-                var deferCall = function () {
-                    if (document.readyState == "complete") {
-                        setTimeout(function () {
-                            me.collectPerf();
-                            document.removeEventListener("readystatechange", deferCall);
-                        }, 100);
+                document.onreadystatechange = function(){
+                    if (document.readyState === "complete") {
+                        me.collectPerf();
                     }
-                };
-                if (document.readyState !== "complete") {
-                    document.addEventListener("readystatechange", deferCall);
                 }
             },
             collectPerf: function () {
@@ -673,7 +693,7 @@
                     'server: ' + computed.p_srv,
                     'browser: ' + computed.p_brw
                 ];
-                window.__perf = msg.join('\n')
+                win.__perf = msg.join('\n')
             }
         }
 

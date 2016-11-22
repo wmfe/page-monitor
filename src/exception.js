@@ -1,10 +1,10 @@
 /**
  * js异常监控
  */
-(function (win) {
+~(function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var location = window.location;
-    BDWMMonitor.define('exception', function () {
+    var location = win.location;
+    BDWMMonitor('exception',function () {
         return {
             run: function () {
                 this.catchException();
@@ -41,5 +41,5 @@
                 }
             }
         }
-    })
+    });
 })(window);

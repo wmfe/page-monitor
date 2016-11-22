@@ -7,12 +7,132 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script>
-        !(function(a,b){function c(){var e=document.createElement("script");var d=document.getElementsByTagName("script")[0];e.async=true;e.src=b;d.parentNode.insertBefore(e,d)}if(a.addEventListener){a.addEventListener("load",c,false)}else{if(a.attachEvent){a.attachEvent("onload",c)}else{a.onload=function(){c()}}}})(window,"../dist/pageMonitor-lite-0.2.lw.js");
+        ~function(e,t,n){var i=document.createElement("script"),o=document.getElementsByTagName("script")[0];i.async=!0,i.src=t,o.parentNode.insertBefore(i,o),e[n]=function(){(e[n].q=e[n].q||[]).push(arguments)}}(window,"../dist/pageMonitor-lite-0.2.min.js","BDWMMonitor");
+    </script>
+    <script>
+        BDWMMonitor('module',['net', 'exception', 'perf']);
+        BDWMMonitor('conf', {
+            // 基础信息 //
+            platform: "b",
+            app: "wmcrm",
+            channel: "pc",
+            //目前缺失
+            pageid: '',
+            url: '//yueyao.com/aaa.gif?',
+            // 上报之前回调,用于添加自定义数据（比如商户id,用户id)
+            beforeReport: function (type, reportData) {
+                return reportData;
+            },
+            // 白名单，page级别（用于确定某页面是否启用统计功能）
+            pageWhiteList: []
+        });
     </script>
 </head>
 <body>
-    <h3>想嘻嘻嘻嘻嘻嘻</h3>
-    <hr>
+<h3>test some thing</h3>
+<hr>
+<button onclick="tclick()">trigger error</button>
+<script>
+    function tclick() {
+        throw new Error('wtf')
+    }
+</script>
+<script type="text/javascript"
+        src="http://stb0.waimai.baidu.com/static/crm_common_base/pkg/crm-common-base_a4843d5a.js"></script>
+<img src="yueyao.com/a.png" alt="">
+<link rel="stylesheet" href="yueyao.com/a.css">
+<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<a href="javascript:;" id="ajax"> test ajax error</a>
+<script>
+    $.ajax({
+        url: "/Handle/Do.aspx",
+        type: "post",
+        data: { id: '0' },
+        dataType: "json",
+        success: function(msg) {
+            alert(msg);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
 
+        },
+        complete: function(XMLHttpRequest, textStatus) {
+
+        }
+    })
+</script>
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', 'yueyao.com/testapi', true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {// 4 = "loaded"
+            if (xhr.status == 200) {// 200 = OK
+                // ...our code here...
+            }
+            else {
+
+            }
+        }
+    }
+    //
+    document.getElementById('ajax').onclick = function(){
+        a1();
+    };
+    setTimeout(function(){
+        a1();
+    },100);
+    function a1(){
+        xhr.open('get', 'yueyao.com/1111111111111111', true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {// 4 = "loaded"
+                if (xhr.status == 200) {// 200 = OK
+                    // ...our code here...
+                }
+                else {
+
+                }
+            }
+        }
+    }
+</script>
+
+<script>
+    var i = performance.timing;
+    var arr = [
+        {
+            name: 'frontend all： dom开始加载到window onload事件执行结束',
+            value:  i.loadEventEnd - i.domLoading,
+        },
+        {
+            name: 'dom: dom开始加载到解析完成',
+            value: i.domComplete - i.domLoading,
+        },
+        {
+            name: 'DOM树构建完毕的时间（还未构建渲染树）',
+            value: i.domInteractive - i.domLoading,
+        },
+        {
+            name: '内嵌资源加载时间',
+            value: i.domComplete - i.domInteractive,
+        },
+        {
+            name: 'DOMContentLoaded开始执行 到 所有需要立即执行的脚本执行完成的时间 ',
+            value: i.domContentLoadedEventEnd - i.domContentLoadedEventStart
+        },
+        {
+            name: '立即执行脚本解析完成以后到文档解析完成的时间',
+            value: i.domComplete - i.domContentLoadedEventEnd
+        },
+        {
+            name:'render 时间',
+            value: i.loadEventEnd - i.loadEventStart
+        }
+    ];
+    console.log(arr.map(function(item){
+        return item.name + '___' + item.value;
+    }).join(" \n  >"))
+
+</script>
 </body>
 </html>

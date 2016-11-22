@@ -17,13 +17,9 @@ gulp.task('all',function(cb) {
             gulp.src(['./src/index.js','./src/net.js','./src/exception.js','./src/perf.js']),
             gulpConcat('pageMonitor-all.js'),
             gulp.dest(DEST),
-            gulpUglify({
-                output: {
-                    max_line_len: 800
-                }
-            }),
+            gulpUglify(),
             gulpRename({
-                extname: "-" + ver +".lw.js"
+                extname: "-" + ver +".min.js"
             }),
             gulp.dest(DEST)
         ],cb);
@@ -31,16 +27,16 @@ gulp.task('all',function(cb) {
 
 gulp.task('lite',function(cb){
     pump([
-        gulp.src(['./src/index.js','./src/exception.js','./src/net-lite.js','./src/perf.js']),
+        gulp.src(['./src/exception.js','./src/net-lite.js','./src/perf.js','./src/index.js']),
         gulpConcat('pageMonitor-lite.js'),
         gulp.dest(DEST),
         gulpUglify({
-            output: {
-                max_line_len: 800
-            }
+            // output: {
+            //     max_line_len: 800
+            // }
         }),
         gulpRename({
-            extname: "-" + ver +".lw.js"
+            extname: "-" + ver +".min.js"
         }),
         gulp.dest(DEST)
     ],cb);
@@ -50,13 +46,9 @@ gulp.task('exception',function(cb){
         gulp.src(['./src/index.js','./src/exception.js']),
         gulpConcat('pageMonitor-exception.js'),
         gulp.dest(DEST),
-        gulpUglify({
-            output: {
-                max_line_len: 800
-            }
-        }),
+        gulpUglify(),
         gulpRename({
-            extname: "-" + ver + ".lw.js"
+            extname: "-" + ver + ".min.js"
         }),
         gulp.dest(DEST)
     ],cb);
@@ -66,11 +58,7 @@ gulp.task('deploy', function(cb){
         gulp.src(['./src/deploy.js']),
         gulpConcat('deploy.js'),
         gulp.dest(DEST),
-        gulpUglify({
-            output: {
-                max_line_len: 400
-            }
-        }),
+        gulpUglify(),
         gulp.dest(DEST)
     ],cb);
 });

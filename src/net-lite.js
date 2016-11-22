@@ -4,8 +4,8 @@
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var location = window.location;
-    BDWMMonitor.define('net', function () {
+    var location = win.location;
+    BDWMMonitor('net', function () {
         return {
             run: function () {
                 this.resourceHook();

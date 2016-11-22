@@ -46,8 +46,8 @@
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
-    var performance = window.performance || window.webkitPerformance || window.msPerformance || window.mozPerformance;
-    BDWMMonitor.define('perf', function () {
+    var performance = win.performance || win.webkitPerformance || win.msPerformance || win.mozPerformance;
+    BDWMMonitor('perf', function () {
         var time = {};
         var perf = {};
         return {
@@ -56,16 +56,10 @@
             },
             domHook: function () {
                 var me = this;
-                var deferCall = function () {
-                    if (document.readyState == "complete") {
-                        setTimeout(function () {
-                            me.collectPerf();
-                            document.removeEventListener("readystatechange", deferCall);
-                        }, 100);
+                document.onreadystatechange = function(){
+                    if (document.readyState === "complete") {
+                        me.collectPerf();
                     }
-                };
-                if (document.readyState !== "complete") {
-                    document.addEventListener("readystatechange", deferCall);
                 }
             },
             collectPerf: function () {
@@ -153,7 +147,7 @@
                     'server: ' + computed.p_srv,
                     'browser: ' + computed.p_brw
                 ];
-                window.__perf = msg.join('\n')
+                win.__perf = msg.join('\n')
             }
         }
 
