@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script>
-        ~function(e,t,n){var i=document.createElement("script"),o=document.getElementsByTagName("script")[0];i.async=!0,i.src=t,o.parentNode.insertBefore(i,o),e[n]=function(){(e[n].q=e[n].q||[]).push(arguments)}}(window,"http://s.waimai.baidu.com/static/pagemonitor/pageMonitor-lite-0.2.min.js","BDWMMonitor");
+        ~function(e,t,n){var i=document.createElement("script"),o=document.getElementsByTagName("script")[0];i.async=!0,i.src=t,o.parentNode.insertBefore(i,o),e[n]=function(){(e[n].q=e[n].q||[]).push(arguments)}}(window,"../dist/pageMonitor-lite-0.2.min.js","BDWMMonitor");
     </script>
     <script>
         BDWMMonitor('module',['net', 'exception', 'perf']);
@@ -23,8 +23,8 @@
             beforeReport: function (type, reportData) {
                 return reportData;
             },
-            // 白名单，page级别（用于确定某页面是否启用统计功能）
-            pageWhiteList: []
+            // 黑名单，page级别（用于确定某页面是否启用统计功能）
+            pageWhiteList: [/[^\?&]+[\?|&]qt=neworderlist&?/]
         });
     </script>
 </head>

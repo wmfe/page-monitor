@@ -34,9 +34,8 @@
         };
         conf.url ? BDWMMonitor.url = conf.url : null;
         conf.beforeReport ? BDWMMonitor.beforeReport = conf.beforeReport : null;
-        // 白名单
-        if (validatePageWhiteList(conf.pageWhiteList)) {
-            // do some thing
+        // 黑名单
+        if (!validatePageWhiteList(conf.pageWhiteList)) {
             modules.forEach(function (item, index) {
                 BDWMMonitor.use(item);
             });
@@ -165,16 +164,20 @@
     }
 
     function validatePageWhiteList(list) {
+        if (!list || (Array.isArray(list) && !list.length)){
+            return false;
+        }
         var pass = false;
-        if (Array.isArray(list)) {
+        if (Array.isArray(list)){
             list.some(function (v, k) {
-                if (v.test(location.href)) {
+                var reg = new RegExp(v);
+                if (reg.test(location.href)) {
                     pass = true;
+                    return true;
                 }
             });
-            list.length ? null : pass = true;
-        } else {
-            pass = (list == location.href);
+        }else {
+            pass = (list == location.href)
         }
         return pass;
     }
