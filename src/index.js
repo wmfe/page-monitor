@@ -1,3 +1,7 @@
+/**
+ * pageMonitor https://wmfe.github.io/page-monitor/
+ * 百度外卖 - 前端数据捕获与上报组件
+ */
 ~(function (win) {
     var navigator = win.navigator;
     var location = win.location;

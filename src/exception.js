@@ -1,3 +1,6 @@
+/**
+ * js异常监控
+ */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
     var location = window.location;

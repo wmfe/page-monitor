@@ -1,7 +1,6 @@
 /**
- * 网络通信监控
+ * 网络通信监控 - 简版 （无资源加载耗时监控）
  *    ajax请求监控
- *    资源加载监控
  */
 (function (win) {
     var BDWMMonitor = win.BDWMMonitor;
