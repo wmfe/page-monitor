@@ -39,7 +39,7 @@
                         url: target.src || target.href,
                         purl: location.href,
                         err_status: "404",
-                        err_msg: "Not Found"
+                        err_txt: "Not Found"
                     });
                 }, true);
 
